@@ -4,6 +4,7 @@ var URI = '/' + VERSION + '/' + RESOURCE_NAME;
 var apiErrors = require('../../util/errors')
 var apiMessages = require('../../util/messages')
 var db = require('../../db/courses')
+var MAX_AGE = 23;
 
 module.exports = function(router){
     'use strict';
@@ -11,7 +12,7 @@ module.exports = function(router){
     router.route(URI).get(function(req, res,next){
         console.log("GET Courses")
 
-
+        res.header('Cache-Control', 'public, max-age='+MAX_AGE);
 
         var reqBody=req.body;
          var criteria = reqBody;
@@ -54,7 +55,7 @@ module.exports = function(router){
     
     router.route(URI).post(function(req, res,next){
         console.log("POST  courses")
-
+        res.header('Cache-Control', 'public, max-age='+MAX_AGE);
       
         var reqBody = req.body;
 
@@ -73,6 +74,7 @@ module.exports = function(router){
 
 
     router.route(URI).delete(function(req,res,next){
+        res.header('Cache-Control', 'public, max-age='+MAX_AGE);
         var reqBody=req.body;
         console.log("Remove data")
         var criteria = reqBody;
@@ -90,6 +92,7 @@ module.exports = function(router){
     
 
     router.route(URI).put(function(req,res,next){
+        res.header('Cache-Control', 'public, max-age='+MAX_AGE);
         console.log("update data")
         var criteria = {_id:'5fe953c6f4c31d1cfc9376c2'}
         var reqBody = req.body;
